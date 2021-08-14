@@ -14,7 +14,7 @@
 		</div>
 
 		<div>
-			<input type="submit" class="button block primary" :value="loading ? 'loading': 'update'" :disabled="loading">
+			<input type="submit" class="button block primary" :value="loading ? '更新中': '更新'" :disabled="loading">
 		</div>
 		<div>
 			<button class="button block" @click="signOut" :disabled="loading">
