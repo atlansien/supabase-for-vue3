@@ -1,5 +1,5 @@
 <template>
-	<form class="row flex flex-center" @submit-prevent="handleLogin">
+	<form class="row flex flex-center" @submit.prevent="handleLogin">
 		<div class="col-6 form-weight">
 			<h1 class="handler">
 				Supabase + Vue 3
@@ -9,7 +9,7 @@
 				<input class="inputField" type="email" placeholder="Your email" v-model="email" />
 			</div>
 			<div>
-				<input type="submit" class="button block" :value="loading ? 'loading' : 'send magic link'" :disabled="loading">
+				<input type="submit" class="button block" :value="loading ? '送信中' : '送信済み'" :disabled="loading">
 			</div>
 		</div>
 	</form>
@@ -27,9 +27,8 @@ export default {
       try {
         loading.value = true
         const { error } = await supabase.auth.signIn({ email: email.value })
-				consoel.log(error)
         if (error) throw error
-        alert("Check your email for the login link!")
+        alert("メールを送信しました")
       } catch (error) {
         alert(error.error_description || error.message)
       } finally {
