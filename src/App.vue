@@ -1,22 +1,37 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + Vite" />
+  <div class="container">
+    <Profile v-if="store.user" />
+    <Auth v-else />
+  </div>
 </template>
 
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
+<script>
+import { store } from './store'
+import { supabase } from './supabase'
+import Auth from './components/Auth.vue'
+import Profile from './components/Profile.vue'
 
-// This starter template is using Vue 3 experimental <script setup> SFCs
-// Check out https://github.com/vuejs/rfcs/blob/master/active-rfcs/0040-script-setup.md
+export default {
+  components: {
+    Auth,
+    Profile
+  },
+  setup() {
+    store.user = supabase.auth.user()
+    supabase.auth.onAuthStateChange((_, session) => {
+      store.user = session.user
+    })
+
+    return {
+      store
+    }
+  }
+}
+
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.container {
+  padding: 50px 0 100px 0;
 }
 </style>
